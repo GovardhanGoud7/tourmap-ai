@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TourMap AI</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="logo">🗺️ TourMap AI</div>
+  <nav>
+    <a href="#home">Home</a><a href="#places">Places</a><a href="#map-section">Map</a><a href="#planner">Trip Planner</a>
+  </nav>
+</header>
+
+<section id="home" class="hero">
+  <div class="hero-content">
+    <h1>Explore. Discover. Travel.</h1>
+    <p>Discover tourist destinations, explore them on an interactive map and plan your journey.</p>
+    <button onclick="findMyLocation()">📍 Find My Location</button>
+  </div>
+</section>
+
+<section id="places" class="section">
+  <h2>Popular Tourist Places</h2>
+  <div class="place-container" id="placeContainer"></div>
+</section>
+
+<section id="map-section" class="section">
+  <h2>Interactive Tourist Map</h2>
+  <div id="map"></div>
+</section>
+
+<section id="planner" class="section planner">
+  <h2>✈️ Trip Planner</h2>
+  <div class="planner-box">
+    <label>Starting Location</label>
+    <input type="text" id="startLocation" placeholder="Example: Anantapur">
+    <label>Destination</label>
+    <input type="text" id="destination" placeholder="Example: Hampi">
+    <label>Number of Days</label>
+    <input type="number" id="days" placeholder="Example: 2" min="1">
+    <button onclick="planTrip()">🚀 Plan My Trip</button>
+    <div id="tripResult"></div>
+  </div>
+</section>
+
+<footer><p>© 2026 TourMap AI | Smart Tourist Mapping System</p></footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
