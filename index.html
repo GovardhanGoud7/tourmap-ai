@@ -1,55 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TourMap AI</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Discover destinations, explore maps, save favorites, and plan your next trip with TourMap.">
+  <title>TourMap | Discover Your Next Journey</title>
+
+  <link rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="script.js" defer></script>
 </head>
 <body>
-<header>
-  <div class="logo">🗺️ TourMap AI</div>
-  <nav>
-    <a href="#home">Home</a><a href="#places">Places</a><a href="#map-section">Map</a><a href="#planner">Trip Planner</a>
-  </nav>
-</header>
+  <header class="navbar">
+    <a class="brand" href="#home"><span>✦</span> TourMap</a>
 
-<section id="home" class="hero">
-  <div class="hero-content">
-    <h1>Explore. Discover. Travel.</h1>
-    <p>Discover tourist destinations, explore them on an interactive map and plan your journey.</p>
-    <button onclick="findMyLocation()">📍 Find My Location</button>
-  </div>
-</section>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#explore">Explore</a>
+      <a href="#map-section">Map</a>
+      <a href="#planner">My Trip</a>
+    </nav>
 
-<section id="places" class="section">
-  <h2>Popular Tourist Places</h2>
-  <div class="place-container" id="placeContainer"></div>
-</section>
+    <button class="nav-fav" id="favorites-nav">♡ Favorites</button>
+  </header>
 
-<section id="map-section" class="section">
-  <h2>Interactive Tourist Map</h2>
-  <div id="map"></div>
-</section>
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <p class="eyebrow">YOUR NEXT ADVENTURE STARTS HERE</p>
+        <h1>Discover places.<br>Collect <span>memories.</span></h1>
+        <p class="hero-description">
+          Find beautiful destinations, explore new places, and plan
+          your perfect journey with TourMap.
+        </p>
+        <a href="#explore" class="primary-btn">Explore destinations →</a>
+      </div>
+      <div class="hero-badge">
+        <span>✈</span>
+        <div><strong>Adventure awaits</strong><small>Your journey, your way</small></div>
+      </div>
+    </section>
 
-<section id="planner" class="section planner">
-  <h2>✈️ Trip Planner</h2>
-  <div class="planner-box">
-    <label>Starting Location</label>
-    <input type="text" id="startLocation" placeholder="Example: Anantapur">
-    <label>Destination</label>
-    <input type="text" id="destination" placeholder="Example: Hampi">
-    <label>Number of Days</label>
-    <input type="number" id="days" placeholder="Example: 2" min="1">
-    <button onclick="planTrip()">🚀 Plan My Trip</button>
-    <div id="tripResult"></div>
-  </div>
-</section>
+    <section class="search-section" aria-label="Destination search">
+      <div class="search-box">
+        <span>⌕</span>
+        <input id="search-input" type="search"
+          placeholder="Search a place, city, or destination..."
+          aria-label="Search destinations">
+        <button id="search-button" class="primary-btn">Search</button>
+      </div>
+    </section>
 
-<footer><p>© 2026 TourMap AI | Smart Tourist Mapping System</p></footer>
+    <section class="section" id="explore">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">FIND YOUR NEXT ESCAPE</p>
+          <h2>Explore destinations</h2>
+          <p class="muted">From peaceful beaches to breathtaking mountains.</p>
+        </div>
+        <span class="result-count" id="result-count"></span>
+      </div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="app.js"></script>
+      <div class="filters" id="filters">
+        <button class="filter active" data-category="All">All places</button>
+        <button class="filter" data-category="Nature">🌿 Nature</button>
+        <button class="filter" data-category="Heritage">🏛 Heritage</button>
+        <button class="filter" data-category="Beach">🏖 Beaches</button>
+        <button class="filter" data-category="Adventure">⛰ Adventure</button>
+      </div>
+
+      <div class="destination-grid" id="destination-grid"></div>
+      <p id="empty-message" class="empty-message" hidden>
+        No destinations found. Try another search.
+      </p>
+    </section>
+
+    <section class="section map-section" id="map-section">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">FIND YOUR WAY</p>
+          <h2>Explore the map</h2>
+          <p class="muted">Select a marker to discover a destination.</p>
+        </div>
+      </div>
+      <div id="map" aria-label="Interactive tourist destination map"></div>
+      <p class="map-note">
+        Map data © OpenStreetMap contributors. An internet connection is required.
+      </p>
+    </section>
+
+    <section class="section planner-section" id="planner">
+      <div class="planner-card">
+        <div class="planner-intro">
+          <p class="eyebrow">YOUR PERSONAL ITINERARY</p>
+          <h2>Plan your next trip</h2>
+          <p>Add destinations to your trip list and estimate your total budget.</p>
+          <div class="planner-stat">
+            <span>Places selected</span>
+            <strong id="trip-count">0</strong>
+          </div>
+          <div class="planner-stat">
+            <span>Estimated budget</span>
+            <strong id="trip-budget">₹0</strong>
+          </div>
+          <button id="clear-trip" class="secondary-btn">Clear trip</button>
+          <button id="download-trip" class="primary-btn">Download itinerary</button>
+        </div>
+        <div class="trip-list-panel">
+          <h3>My itinerary</h3>
+          <div id="trip-list"></div>
+          <p id="trip-empty" class="muted">Your trip is empty. Add a destination to begin!</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section favorites-section" id="favorites">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">SAVED FOR LATER</p>
+          <h2>Your favorite places</h2>
+        </div>
+      </div>
+      <div id="favorite-grid" class="destination-grid"></div>
+      <p id="favorite-empty" class="empty-message">
+        No favorites yet. Tap the ♡ on a destination card to save it.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <a class="brand footer-brand" href="#home"><span>✦</span> TourMap</a>
+    <p>Discover more. Travel better. Make memories.</p>
+    <small>Built with HTML, CSS, JavaScript and Leaflet.</small>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
 </body>
 </html>
